@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tuto jeux de battle</title>
+</head>
+<body>
+	<div id="centrage">
+		<canvas id="myCanvas" width= "800" height"600">
+			
+		</canvas>
+	</div>
+	<script type="text/javascript">
+
+	//FONCTIONS
+	function placeDiv(xpos,ypos)
+	{
+		var d= document.getElementById('centrage'); // récupère la div id centrage
+		d.style.position = "absolute"; //gère le posionnement avec les 2 lignes suivantes
+		d.style.left = xpos+"px";  //décalage par rapport à la gauche
+		d.style.top = ypos+"px";  //décalage par rapport à en haut
+	}
+
+	//VARIABLES GLOBALES
+
+	//CANVAS
+	var canvas = document.getElementById('myCanvas')
+
+	</script>
+
+
+
+</body>
+</html>
