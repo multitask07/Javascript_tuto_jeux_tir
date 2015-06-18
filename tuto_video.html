@@ -2,6 +2,10 @@
 <html>
 <head>
 	<title>Tuto jeux de battle</title>
+
+	<style type="text/css">
+	</style>
+	
 </head>
 <body>
 	<div id="centrage">
@@ -9,8 +13,8 @@
 			
 		</canvas>
 	</div>
+	
 	<script type="text/javascript">
-
 	//FONCTIONS
 	function placeDiv(xpos,ypos)
 	{
@@ -23,7 +27,13 @@
 	//VARIABLES GLOBALES
 
 	//CANVAS
-	var canvas = document.getElementById('myCanvas')
+	var canvas = document.getElementById('myCanvas'); //récup de la fonction myCanvas
+	var context = canvas.getContext('2d');// feuille de base contexte d'une appli en 2d
+
+	//RESIZE adaptation taille d'ecran
+
+	var gameWidth = window.innerWidth
+	var gameHeight = window.innerHeight
 
 	</script>
 
