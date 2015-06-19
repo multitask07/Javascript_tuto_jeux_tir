@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset = "UTF-8">
 	<title>Tuto jeux de battle</title>
 
 	<style type="text/css">
@@ -14,26 +15,140 @@
 		</canvas>
 	</div>
 	
-	<script type="text/javascript">
-	//FONCTIONS
-	function placeDiv(xpos,ypos)
-	{
-		var d= document.getElementById('centrage'); // récupère la div id centrage
-		d.style.position = "absolute"; //gère le posionnement avec les 2 lignes suivantes
-		d.style.left = xpos+"px";  //décalage par rapport à la gauche
-		d.style.top = ypos+"px";  //décalage par rapport à en haut
-	}
+	<script >
 
-	//VARIABLES GLOBALES
+		//**************************************************************************
+		//FONCTIONS
+		//**************************************************************************
+		function placeDiv(xpos,ypos)
+		{
+			var d= document.getElementById('centrage'); // récupère la div id centrage
+			d.style.position = "absolute"; //gère le posionnement avec les 2 lignes suivantes
+			d.style.left = xpos+"px";  //décalage par rapport à la gauche
+			d.style.top = ypos+"px";  //décalage par rapport à en haut
+		};
+		//**************************************************************************
+		//VARIABLES GLOBALES
+		//**************************************************************************
+		//CANVAS
+		//**************************************************************************
 
-	//CANVAS
-	var canvas = document.getElementById('myCanvas'); //récup de la fonction myCanvas
-	var context = canvas.getContext('2d');// feuille de base contexte d'une appli en 2d
+		var canvas = document.getElementById('myCanvas'); //récup de la fonction myCanvas
+		var context = canvas.getContext('2d');// feuille de base contexte d'une appli en 2d
 
-	//RESIZE adaptation taille d'ecran
+		//RESIZE adaptation taille d'ecran
 
-	var gameWidth = window.innerWidth
-	var gameHeight = window.innerHeight
+		var gameWidth = window.innerWidth;
+		var gameHeight = window.innerHeight;
+
+		var scaleToFitX = gameWidth  /800;	
+		var scaleToFitY = gameHeight /600;
+
+		var CurrentScreenRatio = gameWidth / gameHeight;  //calcul de la diagonale
+		var optimalRatio = Math.min(scaleToFitX,scaleToFitY); //donne le ratio optimal hauteur et largeur
+		
+
+		// VERIF dimensions écran d'origine
+		if (CurrentScreenRatio >= 1.77 && CurrentScreenRatio <= 1.79) // ratio suffisant
+		{
+			canvas.style.width= gameWidth + "px";  //nous pouvons utiliser 800
+			canvas.style.height= gameHeight + "px";  //nous pouvons utiliser 600
+
+			var tx = gameWidth; // récup de valeurs en décimal dans tx & ty et non en  texte
+			vat ty = gameHeight;
+		};
+		else	//utilisera le meilleur ratio pour un équivalent à notre 800*600
+		{
+			canvas.style.width= 800 * optimalRatio + "px";  
+			canvas.style.height= 600 * optimalRatio + "px";  
+			var tx = 800 * optimalRatio; // récup des nouvelles valeurs en décimal dans tx & ty et non en  texte
+			vat ty = 600 * optimalRatio;
+		};
+
+		
+		//*************************************************************************	
+		//ONRESIZE
+		//*************************************************************************
+		window.onresize.function(event)
+		{
+			var gameWidth = window.innerWidth;
+			var gameHeight = window.innerHeight;
+
+			var scaleToFitX = gameWidth  /800;	
+			var scaleToFitY = gameHeight /600;
+
+			var CurrentScreenRatio = gameWidth / gameHeight;  //calcul de la diagonale
+			var optimalRatio = Math.min(scaleToFitX,scaleToFitY); //donne le ratio optimal hauteur et largeur qui va servir pour le redimentionnement si besoin.
+			
+
+			// VERIF dimensions écran d'origine
+			if (CurrentScreenRatio >= 1.77 && CurrentScreenRatio  <= 1.79) // ratio suffisant
+			{
+				canvas.style.width= gameWidth + "px";  //nous pouvons utiliser 800
+				canvas.style.height= gameHeight + "px";  //nous pouvons utiliser 600
+
+				var tx = gameWidth; // récup valeurs "décimal" en tx & ty et non en "texte
+				vat ty = gameHeight;
+			}
+			else	//sinon utilisera le meilleur ratio pour un équivalent à notre 800*600
+			{
+				canvas.style.width= 800 * optimalRatio + "px";  
+				canvas.style.height= 600 * optimalRatio + "px";  
+				var tx = 800 * optimalRatio; // récup des nouvelles valeurs en décimal dans tx & ty et non en  texte
+				vat ty = 600 * optimalRatio;
+			}
+				
+			if (document.body) // nous donne les dimension de la fenêtre
+			{
+				var larg = (document.body.clientWidth);
+				var haut = (document.body.clientHeight);
+			}
+			else
+			{
+				var larg = (window.innerWidth);
+				var haut = (window.innerHeight);
+			}
+			//calcul du positionnement optimal du canva s'il y a possible redimentionnement de l'écran
+			canvasposx = larg/2 -tx/2;
+			canvasposy = 0;
+			placeDiv(canvasposx,canvasposy);
+
+		}
+		//**************************************************************************
+		//JEU
+		//**************************************************************************
+
+
+		window.addEventListener('load', function()	//lancement à l'évènement
+		{
+			if (document.body)  // nous donne les dimension de la fenêtre et compare->800/600 pour adapter le bloc de notre jeux.
+			{
+				var larg = (document.body.clientWidth);
+				var haut = (document.body.clientHeight);
+			}
+			else
+			{
+				var larg = (window.innerWidth);
+				var haut = (window.innerHeight);
+			}
+
+				//calcul du positionnement optimal du canva s'il y a possible redimentionnement de l'écran
+			canvasposx = larg/2 -tx/2;
+			canvasposy = 0;
+			placeDiv(canvasposx,canvasposy);
+			setInterval(function()  //intervale de temps ttes les 40ms 
+			{
+				context.clearRect(0,0,800,600); // efface tout ce que l'on a sur notre context 800*600
+				context.beginPath();	// positionne le curseur sur le context
+				context.rect(0,0,800,600); // créé un rectangle de fond 
+
+				context.fillStyle = "rgb(25,1,1,)"; //choix d'un couleur pour la suite à afficher
+  				context.fillRect(0,0,800,600); // créé un rectangle de fond  dim 800*600
+  				context.fill();
+
+			},40)  //fin setInterval
+
+		}.false); //fin window.addEventListener
 
 	</script>
 
